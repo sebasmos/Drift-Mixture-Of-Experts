@@ -2,116 +2,367 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
-  <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="DESCRIPTION META TAG">
-  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
-  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
-  <meta property="og:url" content="URL OF THE WEBSITE"/>
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta name="description" content="DriftMoE: A Mixture of Experts Approach to Handle Concept Drifts - An online learning framework for non-stationary data streams">
+  <meta property="og:title" content="DriftMoE: A Mixture of Experts Approach to Handle Concept Drifts"/>
+  <meta property="og:description" content="Novel online MoE architecture with symbiotic training for concept drift adaptation"/>
+  <meta property="og:url" content="https://miguel-ceadar.github.io/drift-moe"/>
+  <meta property="og:image" content="static/images/driftmoe_banner.png" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
-
-  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
-  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:title" content="DriftMoE: A Mixture of Experts Approach to Handle Concept Drifts">
+  <meta name="twitter:description" content="Novel online MoE architecture with symbiotic training for concept drift adaptation">
+  <meta name="twitter:image" content="static/images/driftmoe_banner.png">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="keywords" content="concept drift, mixture of experts, online learning, data streams, incremental learning, adaptive ensembles">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-  <title>Academic Project Page</title>
+  <title>DriftMoE: A Mixture of Experts Approach to Handle Concept Drifts</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-  rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="static/css/index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script src="static/js/bulma-carousel.min.js"></script>
   <script src="static/js/bulma-slider.min.js"></script>
   <script src="static/js/index.js"></script>
+
+  <style>
+    .architecture-container {
+      background: #fafbfc;
+      border-radius: 20px;
+      border: 3px solid #e1e8ed;
+      padding: 30px;
+      margin: 20px 0;
+      position: relative;
+      height: 600px;
+      overflow: visible;
+    }
+    
+    .variant-toggle {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      display: flex;
+      gap: 5px;
+      z-index: 100;
+    }
+    
+    .toggle-btn {
+      padding: 12px 24px;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .toggle-btn.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .toggle-btn:hover:not(.active) {
+      background: #5a6268;
+      transform: translateY(-1px);
+    }
+    
+    .data-stream {
+      position: absolute;
+      left: 60px;
+      top: 55%;
+      transform: translateY(-50%);
+      width: 170px;
+      height: 180px;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-weight: 600;
+      box-shadow: 0 15px 35px rgba(255, 154, 158, 0.3);
+    }
+    
+    .stream-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    .router {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 140px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+    }
+    
+    .router-icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .experts-container {
+      position: absolute;
+      right: 60px;
+      top: 55%;
+      transform: translateY(-50%);
+      width: 220px;
+      height: 300px;
+    }
+    
+    .expert {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 9px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    
+    .expert:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+    
+    .expert.multiclass {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+    
+    .expert.task {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      color: #333;
+    }
+    
+    .expert:nth-child(1) { top: 0; left: 0; }
+    .expert:nth-child(2) { top: 0; left: 80px; }
+    .expert:nth-child(3) { top: 0; right: 0; }
+    .expert:nth-child(4) { top: 70px; left: 40px; }
+    .expert:nth-child(5) { top: 70px; right: 40px; }
+    .expert:nth-child(6) { top: 140px; left: 0; }
+    .expert:nth-child(7) { top: 140px; right: 0; }
+    .expert:nth-child(8) { bottom: 70px; left: 40px; }
+    .expert:nth-child(9) { bottom: 70px; right: 40px; }
+    .expert:nth-child(10) { bottom: 0; left: 80px; }
+    
+    .arrow {
+      position: absolute;
+      color: #4a90e2;
+      font-size: 32px;
+      font-weight: bold;
+      animation: pulse-arrow 2s infinite;
+    }
+    
+    @keyframes pulse-arrow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    .arrow.stream-router { left: 250px; top: 50%; transform: translateY(-50%); }
+    .arrow.router-experts { right: 300px; top: 50%; transform: translateY(-50%); }
+    
+    .feedback-loop {
+      position: absolute;
+      bottom: 60px;
+      left: 250px;
+      right: 300px;
+      text-align: center;
+      color: #e74c3c;
+      font-weight: bold;
+      border-top: 3px dashed #e74c3c;
+      padding-top: 10px;
+    }
+    
+    .component-label {
+      position: absolute;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .label-stream { top: 20px; left: 60px; }
+    .label-router { top: 20px; left: 50%; transform: translateX(-50%); }
+    .label-experts { top: 20px; right: 60px; }
+    
+    .legend {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.95);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #dee2e6;
+      font-size: 11px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    
+    .legend-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 8px;
+    }
+
+    h1.title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h2.title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #444;
+      text-align: center;
+      margin-bottom: 15px;
+      background: linear-gradient(to right, indigo, indigo, skyblue, indigo, indigo);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.5;
+    }
+
+    h3.title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+
+    /* Setting the footer background to white */
+    footer.footer {
+      background-color: white;
+      box-shadow: none;
+    }
+  </style>
 </head>
 <body>
 
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">DriftMoE: A Mixture of Experts Approach to Handle Concept Drifts</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://pt.linkedin.com/in/miguel-aspis" target="_blank">Miguel Aspis</a><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/sebasmos777/" target="_blank">Sebastián A. Cajas Ordoñez</a><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/cetrulo/" target="_blank">Andrés L. Suárez-Cetrulo</a>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/ricardo-simon-carbajo-7141464/" target="_blank">Ricardo Simón Carbajo</a>
+            </span>
+          </div>
 
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Ireland's National Centre for Artificial Intelligence (CeADAR)<br>
+            University College Dublin<br>
+            <strong>Accepted as Poster, Presentation & Proceedings at SYNDAiTE@ECML-PKDD 2025 Workshop</strong></span>
+            <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+          </div>
+
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Academic Project Page</h1>
-            <div class="is-size-5 publication-authors">
-              <!-- Paper authors -->
-              <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">First Author</a><sup>*</sup>,</span>
-                <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Second Author</a><sup>*</sup>,</span>
-                  <span class="author-block">
-                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Third Author</a>
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2507.18464" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
                   </span>
-                  </div>
+                  <span>PDF</span>
+                </a>
+              </span>
 
-                  <div class="is-size-5 publication-authors">
-                    <span class="author-block">Institution Name<br>Conferance name and year</span>
-                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
-                  </div>
-
-                  <div class="column has-text-centered">
-                    <div class="publication-links">
-                         <!-- Arxiv PDF link -->
-                      <span class="link-block">
-                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
-
-                    <!-- Supplementary PDF link -->
-                    <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
-                      class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Supplementary</span>
-                    </a>
+              <span class="link-block">
+                <a href="https://github.com/miguel-ceadar/drift-moe" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
                   </span>
+                  <span>Code</span>
+                </a>
+              </span>
 
-                  <!-- Github link -->
-                  <span class="link-block">
-                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
-
-                <!-- ArXiv abstract Link -->
-                <span class="link-block">
-                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
-                  class="external-link button is-normal is-rounded is-dark">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2507.18464" target="_blank" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                     <i class="ai ai-arxiv"></i>
                   </span>
                   <span>arXiv</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://huggingface.co/m-aspis/drift_moe" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
+                  </span>
+                  <span>Hugging Face</span>
                 </a>
               </span>
             </div>
@@ -122,23 +373,22 @@
   </div>
 </section>
 
-
-<!-- Teaser video-->
-<section class="hero teaser">
+<!-- Architecture Overview Section -->
+<section class="section hero">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
-        <!-- Your video here -->
-        <source src="static/videos/banner_video.mp4"
-        type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
-      </h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Architecture Overview</h2>
+        
+        <div class="hero-body">
+          <img src="static/images/pipeline.png" alt="DriftMoE Architecture Pipeline showing symbiotic training loop" width="1000" />
+          <h4 class="subtitle has-text-centered"><b>DriftMoE Architecture and Symbiotic Training Framework.</b></h4>
+          The architecture features a neural router co-trained with Hoeffding tree experts through a continuous feedback loop. The router dynamically selects experts, which then update incrementally, providing correctness feedback that refines the router's decision-making capabilities.
+        </div>
+      </div>
     </div>
   </div>
 </section>
-<!-- End teaser video -->
 
 <!-- Paper abstract -->
 <section class="section hero is-light">
@@ -148,165 +398,373 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper tellus sed ante aliquam tempus. Etiam porttitor urna feugiat nibh elementum, et tempor dolor mattis. Donec accumsan enim augue, a vulputate nisi sodales sit amet. Proin bibendum ex eget mauris cursus euismod nec et nibh. Maecenas ac gravida ante, nec cursus dui. Vivamus purus nibh, placerat ac purus eget, sagittis vestibulum metus. Sed vestibulum bibendum lectus gravida commodo. Pellentesque auctor leo vitae sagittis suscipit.
+            Learning from non-stationary data streams subject to concept drift requires models that can adapt on-the-fly while remaining resource-efficient. Existing adaptive ensemble methods often rely on coarse-grained adaptation mechanisms or simple voting schemes that fail to optimally leverage specialized knowledge. This paper introduces <strong>DriftMoE</strong>, an online Mixture-of-Experts (MoE) architecture that addresses these limitations through a novel co-training framework.
+          </p>
+          <p>
+            DriftMoE features a compact neural router that is co-trained alongside a pool of incremental Hoeffding tree experts. The key innovation lies in a <strong>symbiotic learning loop</strong> that enables expert specialization: the router selects the most suitable expert for prediction, the relevant experts update incrementally with the true label, and the router refines its parameters using a multi-hot correctness mask that reinforces every accurate expert.
+          </p>
+          <p>
+            We evaluate DriftMoE's performance across nine state-of-the-art data stream learning benchmarks spanning abrupt, gradual, and real-world drifts. Our results demonstrate that DriftMoE achieves competitive results with state-of-the-art stream learning adaptive ensembles, offering a principled and efficient approach to concept drift adaptation.
           </p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- End paper abstract -->
 
-
-<!-- Image carousel -->
+<!-- Key Features -->
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel1.jpg" alt="MY ALT TEXT"/>
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="MY ALT TEXT"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="MY ALT TEXT"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="MY ALT TEXT"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
-    </div>
-  </div>
-</div>
-</div>
-</section>
-<!-- End image carousel -->
-
-
-
-
-<!-- Youtube video -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <!-- Paper video. -->
-      <h2 class="title is-3">Video Presentation</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          
-          <div class="publication-video">
-            <!-- Youtube embed code here -->
-            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <h2 class="title is-3 has-text-centered">Key Features</h2>
+      <div class="columns">
+        <div class="column">
+          <div class="box">
+            <h3 class="title is-5">🎯 Symbiotic Training</h3>
+            <p>Router and experts co-evolve through continuous feedback loops, enabling dynamic specialization without explicit drift detection.</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box">
+            <h3 class="title is-5">⚡ Resource Efficient</h3>
+            <p>Achieves competitive performance with significantly fewer base learners compared to traditional ensemble methods.</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box">
+            <h3 class="title is-5">🔄 Two Variants</h3>
+            <p>MoE-Data (multi-class experts) and MoE-Task (binary experts) configurations for different specialization strategies.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- End youtube video -->
 
+<!-- Motivation Section -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-2">Motivation</h2>
+        <h5 class="title is-5" style="text-align: center;">
+          Existing ensemble methods for concept drift rely on coarse-grained adaptation and fail to optimally leverage specialized knowledge.
+        </h5>
 
-<!-- Video carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1">
-          <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel1.mp4"
-            type="video/mp4">
-          </video>
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content">
+              <h4 class="title is-5" style="text-align: center;">🔒 Challenges</h4>
+              <p>
+              (1) Active methods rely on explicit drift detection which can be delayed or generate false positives<br>
+              (2) Passive methods use simple voting schemes that don't leverage expert specialization<br>
+              (3) Most approaches lack principled mechanisms for experts to develop specialized knowledge
+              </p>
+            </div>
+          </div>
+          <div class="column">
+            <h4 class="title is-5" style="text-align: center;">🔑 Solutions</h4>
+            <div class="columns is-centered">
+              <div class="column content">
+                <p>
+                (1) Symbiotic co-training framework without explicit drift detection<br>
+                (2) Neural router that dynamically assigns data to most suitable experts<br>
+                (3) Multi-hot correctness mask enables principled expert specialization
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="item item-video2">
-          <video poster="" id="video2" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel2.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <video poster="" id="video3" autoplay controls muted loop height="100%">\
-            <!-- Your video file here -->
-            <source src="static/videos/carousel3.mp4"
-            type="video/mp4">
-          </video>
+
+        <div class="hero-body">
+          <img src="static/images/accuracy_comparison.png" alt="Accuracy comparison across different datasets showing DriftMoE performance" width="1000" />
+          <h4 class="subtitle has-text-centered"><b>Prequential accuracy comparison across nine benchmark datasets.</b></h4>
+          DriftMoE variants achieve competitive performance with state-of-the-art adaptive ensembles across synthetic and real-world streams, demonstrating robust adaptation to different types of concept drift.
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- End video carousel -->
 
+<!-- Drift Adaptation Performance -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-2">Concept Drift Adaptation</h2>
+        <h5 class="title is-5" style="text-align: center;">
+          DriftMoE demonstrates fast recovery after concept drift points, matching the adaptation speed of larger ensembles.
+        </h5>
 
+        <div class="hero-body">
+          <img src="static/images/led_g_accuracy.png" alt="Accuracy over time showing concept drift adaptation" width="1000" />
+          <h4 class="subtitle has-text-centered"><b>Accuracy over time for LED gradual drift dataset.</b></h4>
+          The figure shows how DriftMoE recovers quickly from concept drift points (marked by vertical lines), achieving similar recovery speed to ADWIN-equipped ensembles while using significantly fewer base learners.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- Performance Metrics -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-2">Comprehensive Evaluation</h2>
+        <h5 class="title is-5" style="text-align: center;">
+          Performance evaluation across multiple metrics demonstrates DriftMoE's robustness and efficiency.
+        </h5>
 
+        <div class="hero-body">
+          <img src="static/images/metrics---.png" alt="Comprehensive metrics comparison including Kappa-M and Kappa-Temporal" width="2400" />
+          <h4 class="subtitle has-text-centered"><b>Performance across accuracy, Kappa-M, and Kappa-Temporal metrics.</b></h4>
+          Beyond accuracy, DriftMoE maintains competitive performance on Kappa metrics that account for class imbalance and temporal dependencies, confirming its robustness across different evaluation criteria.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-
-<!-- Paper poster -->
+<!-- Experimental Results -->
 <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
-      <h2 class="title">Poster</h2>
-
-      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
-          </iframe>
-        
+      <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+      <div class="content">
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-5">Datasets Evaluated</h4>
+            <ul>
+              <li><strong>Synthetic:</strong> LED (Abrupt/Gradual), SEA (Abrupt/Gradual), RBF (Moderate/Fast)</li>
+              <li><strong>Real-world:</strong> Airlines, Electricity, CoverType</li>
+            </ul>
+            <h4 class="title is-5">Baselines Compared</h4>
+            <ul>
+              <li>Adaptive Random Forest (ARF)</li>
+              <li>Leveraging Bagging (LevBag)</li>
+              <li>OzaBag, OzaBoost, SmoothBoost</li>
+              <li>Streaming Random Patches (SRP)</li>
+            </ul>
+          </div>
+          <div class="column">
+            <h4 class="title is-5">Key Findings</h4>
+            <ul>
+              <li><strong>MoE-Data:</strong> Most robust across datasets, achieves 70.33 ± 0.18 on Airlines (best among all methods)</li>
+              <li><strong>MoE-Task:</strong> Excels in high-frequency drift scenarios (75.45 ± 0.11 on RBFf, 88.65 ± 0.07 on RBFm)</li>
+              <li><strong>Efficiency:</strong> Competitive with SOTA methods using significantly fewer base learners (12 vs 100+ trees)</li>
+              <li><strong>Fast Recovery:</strong> Matches ADWIN-equipped ensemble recovery speed after concept drift</li>
+            </ul>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-5">Performance Highlights</h4>
+            <table class="table is-striped is-narrow">
+              <thead>
+                <tr>
+                  <th>Dataset</th>
+                  <th>MoE-Data</th>
+                  <th>MoE-Task</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Airlines</td>
+                  <td><strong>70.33 ± 0.18</strong></td>
+                  <td>60.92 ± 0.01</td>
+                </tr>
+                <tr>
+                  <td>CovType</td>
+                  <td>81.28 ± 0.75</td>
+                  <td>58.28 ± 0.31</td>
+                </tr>
+                <tr>
+                  <td>Electricity</td>
+                  <td>83.76 ± 0.45</td>
+                  <td>68.73 ± 0.85</td>
+                </tr>
+                <tr>
+                  <td>LED<sub>a</sub></td>
+                  <td>73.77 ± 0.18</td>
+                  <td>71.11 ± 0.54</td>
+                </tr>
+                <tr>
+                  <td>LED<sub>g</sub></td>
+                  <td>73.11 ± 0.11</td>
+                  <td>70.82 ± 0.38</td>
+                </tr>
+                <tr>
+                  <td>RBF<sub>f</sub></td>
+                  <td>61.90 ± 0.20</td>
+                  <td>75.45 ± 0.11</td>
+                </tr>
+                <tr>
+                  <td>RBF<sub>m</sub></td>
+                  <td>79.89 ± 0.48</td>
+                  <td>88.65 ± 0.07</td>
+                </tr>
+                <tr>
+                  <td>SEA<sub>a</sub></td>
+                  <td>89.09 ± 0.05</td>
+                  <td>88.04 ± 0.09</td>
+                </tr>
+                <tr>
+                  <td>SEA<sub>g</sub></td>
+                  <td>88.74 ± 0.05</td>
+                  <td>87.76 ± 0.04</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-<!--End paper poster -->
+  </div>
+</section>
+
+<!-- Training Process -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Symbiotic Training Process</h2>
+      <div class="columns">
+        <div class="column">
+          <div class="box has-text-centered">
+            <span class="tag is-info is-large">1</span>
+            <h4 class="title is-6 mt-3">Router Selection</h4>
+            <p><strong>MoE-Data:</strong> Router selects Top-K experts based on learned weights<br>
+            <strong>MoE-Task:</strong> All experts activated with binary labels</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box has-text-centered">
+            <span class="tag is-info is-large">2</span>
+            <h4 class="title is-6 mt-3">Expert Updates</h4>
+            <p>Selected experts make predictions and update incrementally using Hoeffding tree learning rules</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box has-text-centered">
+            <span class="tag is-info is-large">3</span>
+            <h4 class="title is-6 mt-3">Correctness Mask</h4>
+            <p>Multi-hot mask generated: m<sub>t,i</sub> = 1 if expert i predicts correctly, 0 otherwise</p>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box has-text-centered">
+            <span class="tag is-info is-large">4</span>
+            <h4 class="title is-6 mt-3">Router Update</h4>
+            <p>Router parameters refined using binary cross-entropy loss with correctness feedback in mini-batches</p>
+          </div>
+        </div>
+      </div>
 
 
 <!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>BibTex Code Here</code></pre>
-    </div>
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{aspis2024driftmoe,
+  title={DriftMoE: A Mixture of Experts Approach to Handle Concept Drifts},
+  author={Aspis, Miguel and Cajas Ordoñez, Sebastián A. and Suárez-Cetrulo, Andrés L. and Simón Carbajo, Ricardo},
+  journal={arXiv preprint},
+  year={2025},
+  note={Ireland's National Centre for Artificial Intelligence (CeADAR), University College Dublin},
+  conference={Accepted at the SYNDAiTE@ECMLPKDD 2025 workshop}
+}</code></pre>
+  </div>
 </section>
-<!--End BibTex citation -->
 
+<script>
+  let currentVariant = 'data';
+  
+  function createExperts(variant) {
+    const container = document.getElementById('expertsContainer');
+    container.innerHTML = '';
+    
+    const expertCount = variant === 'data' ? 12 : 7;
+    const maxShow = Math.min(expertCount, 10);
+    
+    for (let i = 0; i < maxShow; i++) {
+      const expert = document.createElement('div');
+      expert.className = `expert ${variant === 'data' ? 'multiclass' : 'task'}`;
+      
+      const expertIcon = '🌳';
+      const expertNum = `E${i+1}`;
+      const expertDesc = variant === 'data' ? 'Multi-class' : `Class ${i+1}`;
+      
+      expert.innerHTML = `
+        <div style="font-size: 18px;">${expertIcon}</div>
+        <div style="font-size: 8px; text-align: center;">${expertNum}<br>${expertDesc}</div>
+      `;
+      
+      container.appendChild(expert);
+      
+      // Stagger animation
+      expert.style.opacity = '0';
+      expert.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+        expert.style.transition = 'all 0.5s ease';
+        expert.style.opacity = '1';
+        expert.style.transform = 'scale(1)';
+      }, i * 100);
+    }
+    
+    // Update legend
+    const expertColor = document.getElementById('expertColor');
+    const expertType = document.getElementById('expertType');
+    
+    if (variant === 'data') {
+      expertColor.style.background = 'linear-gradient(135deg, #11998e, #38ef7d)';
+      expertType.textContent = 'Multi-class Experts';
+    } else {
+      expertColor.style.background = 'linear-gradient(135deg, #ffecd2, #fcb69f)';
+      expertType.textContent = 'Binary Experts (One-vs-Rest)';
+    }
+  }
+  
+  function showVariant(variant) {
+    currentVariant = variant;
+    
+    // Update button states
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Animate transition
+    const container = document.getElementById('expertsContainer');
+    container.style.transform = 'scale(0.9) translateY(-50%)';
+    container.style.opacity = '0.5';
+    
+    setTimeout(() => {
+      createExperts(variant);
+      container.style.transform = 'scale(1) translateY(-50%)';
+      container.style.opacity = '1';
+    }, 300);
+  }
+  
+  // Initialize with MoE-Data variant
+  document.addEventListener('DOMContentLoaded', function() {
+    createExperts('data');
+  });
+</script>
 
-  <footer class="footer">
+<footer class="footer">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
-
           <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>. 
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
-
         </div>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
-
-    <!-- End of Statcounter Code -->
-
-  </body>
-  </html>
+</body>
+</html>
